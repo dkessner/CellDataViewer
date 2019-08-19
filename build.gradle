@@ -47,7 +47,7 @@ project(":core") {
 
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
-        
+        implementation files('../../ProcessingGdxAdapter/ProcessingGdx/build/libs/ProcessingGdx-0.1.0.jar')
     }
 }
 
@@ -120,6 +120,6 @@ project(":html") {
         api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
         api "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        
+        implementation files('../../ProcessingGdxAdapter/ProcessingGdx/build/libs/ProcessingGdx-0.1.0.jar')
     }
 }

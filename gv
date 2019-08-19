@@ -1,0 +1,1 @@
+gvim -c "set mp=gradlew\ desktop:run" $(cat files)
