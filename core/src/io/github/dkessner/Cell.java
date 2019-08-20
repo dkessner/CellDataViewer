@@ -14,6 +14,11 @@ public class Cell
     public float radius;
     public int color;
 
+    public Cell()
+    {
+        position = new PVector();
+    }
+
     public void draw(PGraphics p)
     {
         p.pushMatrix();
@@ -21,6 +26,13 @@ public class Cell
         p.fill(color);
         p.box(radius);
         p.popMatrix();
+    }
+
+    public boolean intersects(Cell that)
+    {
+        PVector d = that.position.copy();
+        d.sub(this.position);
+        return d.magSq() < this.radius + that.radius;
     }
 }
 

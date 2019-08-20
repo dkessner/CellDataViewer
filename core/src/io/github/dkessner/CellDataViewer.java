@@ -28,7 +28,7 @@ public class CellDataViewer extends PApplet
     public void setup()
     {
         camera = new Camera(this);
-        initializeCells();
+        initializeCells2();
     }
 
     /*
@@ -79,7 +79,7 @@ public class CellDataViewer extends PApplet
         final int c2 = color(0xff50e550);
 
         PVector current = new PVector(-100, -100, -100);
-        while (current.mag() <= 200)
+        while (current.mag() < 200)
         {
             Cell cell = new Cell();
             cell.position = current.copy();
@@ -88,6 +88,36 @@ public class CellDataViewer extends PApplet
             cells.add(cell);
             current.add(random(5), random(5), random(5));
         }
+    }
+
+    private void initializeCells2()
+    {
+        cells = new ArrayList<Cell>();
+
+        final int c1 = color(0xff226de5);
+        final int c2 = color(0xff50e550);
+
+        for (int i=0; i<400; i++)
+        {
+            Cell cell = new Cell();
+            PVector step = PVector.random3D();
+
+            while (intersectsExistingCell(cell))
+                cell.position.add(step);
+
+            cell.radius = random(5, 15);
+            cell.color = lerpColor(c1, c2, cell.radius/15);
+
+            cells.add(cell);
+        }
+    }
+
+    private boolean intersectsExistingCell(Cell cell)
+    {
+        for (Cell c : cells)
+            if (c.intersects(cell))
+                return true;
+        return false;
     }
 
     @Override
@@ -152,6 +182,16 @@ public class CellDataViewer extends PApplet
             ortho();
         else if (key == 'p')
             perspective();
+        else if (key == 'f')
+        {
+            fullScreen();
+            perspective(); // TODO: fix
+        }
+        else if (key == 'F')
+        {
+            size(800, 600, P3D);
+            perspective();
+        }
     }
 
     @Override
