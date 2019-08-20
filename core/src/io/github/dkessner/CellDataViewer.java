@@ -8,6 +8,9 @@
 package io.github.dkessner;
 
 import java.util.*;
+import java.io.*;
+import java.nio.file.*;
+
 
 
 public class CellDataViewer extends PApplet
@@ -32,6 +35,47 @@ public class CellDataViewer extends PApplet
         final float far = cameraZ*10.0f;
 
         perspective(fov, aspect, near, far);
+
+        //writeFile();
+        readFile();
+    }
+
+    public static void readFile()
+    {
+        try
+        {
+            Path path = Paths.get("output.txt");
+            List<String> lines = Files.readAllLines(path);
+
+            for (String line : lines)
+            {
+                System.out.println("> " + line);
+            }
+        }
+        catch (IOException e)
+        {
+            System.out.println(e);
+        }
+    }
+
+    public static void writeFile()
+    {
+        try
+        {
+            Path path = Paths.get("output.txt");
+
+            ArrayList<String> lines = new ArrayList<String>();
+            lines.add("Hello.");
+            lines.add("My name is Inigo Montoya.");
+            lines.add("You killed my father.");
+            lines.add("Prepare to die.");
+
+            Files.write(path, lines);
+        }
+        catch (IOException e)
+        {
+            System.out.println(e);
+        }
     }
 
     private void initializePoints()
