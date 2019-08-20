@@ -37,9 +37,10 @@ public class CellDataViewer extends PApplet
         perspective(fov, aspect, near, far);
 
         //writeFile();
-        readFile();
+        //readFile();
     }
 
+    /*
     public static void readFile()
     {
         try
@@ -77,6 +78,7 @@ public class CellDataViewer extends PApplet
             System.out.println(e);
         }
     }
+    */
 
     private void initializePoints()
     {
