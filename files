@@ -1,4 +1,5 @@
 ./core/src/io/github/dkessner/CellDataViewer.java
+./core/src/io/github/dkessner/Camera.java
 ./core/src/io/github/dkessner/Axes.java
 ./core/src/io/github/dkessner/ProcessingGdxAdapter.java
 ./desktop/src/io/github/dkessner/desktop/DesktopLauncher.java

@@ -26,17 +26,9 @@ public class CellDataViewer extends PApplet
     {
         initializePoints();
 
-        final float cameraZ = height/2.0f / tan(PI/6);
-        cameraPosition.z = cameraZ;
+        camera = new Camera(this);
 
-        final float fov = PI/3;
-        final float aspect = (float)width / height;
-        final float near = cameraZ/100.0f;
-        final float far = cameraZ*10.0f;
-
-        perspective(fov, aspect, near, far);
-
-        //writeFile();
+       //writeFile();
         //readFile();
     }
 
@@ -113,13 +105,8 @@ public class CellDataViewer extends PApplet
     {
         background(0);
 
-        updateCamera();
-
-        resetMatrix();
-        rotateX(cameraPitch);
-        rotateY(cameraYaw);
-        translate(-cameraPosition.x, -cameraPosition.y, -cameraPosition.z);
-
+        camera.update();
+        camera.transform();
         // draw RGB ellipses
 
         colorMode(RGB, 255);
@@ -201,41 +188,6 @@ public class CellDataViewer extends PApplet
         }
     }
 
-    final float cameraSpeed = 5.0f;
-    final float cameraAngularSpeed = radians(1.2f);
-
-    PVector cameraPosition = new PVector();
-    PVector cameraVelocity = new PVector();
-    float cameraYaw;
-    float cameraYawVelocity;
-    float cameraPitch;
-    float cameraPitchVelocity;
-
-    void cameraMoveX(float speed) {cameraVelocity.x = speed;}
-    void cameraMoveY(float speed) {cameraVelocity.y = speed;}
-    void cameraMoveZ(float speed) {cameraVelocity.z = speed;}
-    void cameraMoveYaw(float speed) {cameraYawVelocity = speed;}
-    void cameraMovePitch(float speed) {cameraPitchVelocity = speed;}
-
-    PMatrix3D getCameraMatrix() 
-    {
-        PMatrix3D transformation = new PMatrix3D();
-        transformation.rotateY(-cameraYaw);
-        transformation.rotateX(-cameraPitch);
-        return transformation;
-    }
-
-    void updateCamera()
-    {
-        PMatrix3D transformation = getCameraMatrix();
-        PVector step = transformation.mult(cameraVelocity, null);
-        cameraPosition.add(step); 
-
-        cameraYaw += cameraYawVelocity;
-        cameraPitch += cameraPitchVelocity;
-    }
-
-
     private boolean shift = false;
 
     @Override
@@ -246,39 +198,39 @@ public class CellDataViewer extends PApplet
         else if (keyCode == RIGHT)
         {
             if (shift) 
-                cameraMoveX(cameraSpeed);
+                camera.moveX(Camera.speed);
             else 
-                cameraMoveYaw(cameraAngularSpeed);
+                camera.moveYaw(Camera.angularSpeed);
         }
         else if (keyCode == LEFT)
         {
             if (shift)
-                cameraMoveX(-cameraSpeed);
+                camera.moveX(-Camera.speed);
             else
-                cameraMoveYaw(-cameraAngularSpeed);
+                camera.moveYaw(-Camera.angularSpeed);
         }
         else if (keyCode == UP)
         {
             if (shift)
-                cameraMoveY(-cameraSpeed);
+                camera.moveY(-Camera.speed);
             else
-                cameraMovePitch(cameraAngularSpeed);
+                camera.movePitch(Camera.angularSpeed);
         }
         else if (keyCode == DOWN)
         {
             if (shift)
-                cameraMoveY(cameraSpeed);
+                camera.moveY(Camera.speed);
             else
-                cameraMovePitch(-cameraAngularSpeed);
+                camera.movePitch(-Camera.angularSpeed);
         }
         else if (key == 'w')
-            cameraMoveZ(-cameraSpeed);
+            camera.moveZ(-Camera.speed);
         else if (key == 's')
-            cameraMoveZ(cameraSpeed);
+            camera.moveZ(Camera.speed);
         else if (key == 'a')
-            cameraMoveX(-cameraSpeed);
+            camera.moveX(-Camera.speed);
         else if (key == 'd')
-            cameraMoveX(cameraSpeed);
+            camera.moveX(Camera.speed);
         else if (key == 'o')
             ortho();
         else if (key == 'p')
@@ -293,26 +245,28 @@ public class CellDataViewer extends PApplet
         else if (keyCode == RIGHT || keyCode == LEFT)
         {
             if (shift)
-                cameraMoveX(0);
+                camera.moveX(0);
             else
-                cameraMoveYaw(0);
+                camera.moveYaw(0);
         }
         else if (keyCode == UP || keyCode == DOWN)
         {
             if (shift)
-                cameraMoveY(0);
+                camera.moveY(0);
             else
-                cameraMovePitch(0);
+                camera.movePitch(0);
         }
         else if (key == 'w' || key == 's')
-            cameraMoveZ(0);
+            camera.moveZ(0);
         else if (key == 'a' || key == 'd')
-            cameraMoveX(0);
+            camera.moveX(0);
     }
 
     ArrayList<PVector> points;
     ArrayList<PVector> points2;
     ArrayList<PVector> points3;
+
+    private Camera camera;
 }
 
 
