@@ -7,6 +7,8 @@
 
 package io.github.dkessner;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 
 import java.util.*;
 import java.io.*;
@@ -29,9 +31,7 @@ public class CellDataViewer extends PApplet
     {
         camera = new Camera(this);
 
-        
         initializeCells();
-
         //writeCellData();
         //readCellData();
     }
@@ -84,32 +84,33 @@ public class CellDataViewer extends PApplet
             System.out.println(e);
         }
     }
+    */
 
     private void readCellData()
     {
         try
         {
-            Path path = Paths.get("cells.txt");
-            List<String> lines = Files.readAllLines(path);
+            FileHandle handle = Gdx.files.internal("cells.txt");
+            BufferedReader reader = handle.reader(1024);
 
             cells = new ArrayList<Cell>();
 
-            for (String line : lines)
+            while (reader.ready())
             {
+                String line = reader.readLine();
                 System.out.println("> " + line);
 
                 Cell cell = new Cell();
                 cell.fromString(line);
+
                 cells.add(cell);
             }
-
         }
         catch (IOException e)
         {
             System.out.println(e);
         }
     }
-    */
 
     @Override
     public void draw()
