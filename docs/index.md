@@ -1,6 +1,6 @@
 # CellDataViewer
 
-[Web version](dist)
+<a href="dist" target="_blank">Web app</a>
 
 * Arrow keys: yaw/pitch  
 * Shift Arrow keys: translate x/y  
