@@ -28,69 +28,15 @@ public class CellDataViewer extends PApplet
     public void setup()
     {
         camera = new Camera(this);
-        initializeCells2();
+
+        
+        initializeCells();
+
+        //writeCellData();
+        //readCellData();
     }
-
-    /*
-    public static void readFile()
-    {
-        try
-        {
-            Path path = Paths.get("output.txt");
-            List<String> lines = Files.readAllLines(path);
-
-            for (String line : lines)
-            {
-                System.out.println("> " + line);
-            }
-        }
-        catch (IOException e)
-        {
-            System.out.println(e);
-        }
-    }
-
-    public static void writeFile()
-    {
-        try
-        {
-            Path path = Paths.get("output.txt");
-
-            ArrayList<String> lines = new ArrayList<String>();
-            lines.add("Hello.");
-            lines.add("My name is Inigo Montoya.");
-            lines.add("You killed my father.");
-            lines.add("Prepare to die.");
-
-            Files.write(path, lines);
-        }
-        catch (IOException e)
-        {
-            System.out.println(e);
-        }
-    }
-    */
 
     private void initializeCells()
-    {
-        cells = new ArrayList<Cell>();
-
-        final int c1 = color(0xff226de5);
-        final int c2 = color(0xff50e550);
-
-        PVector current = new PVector(-100, -100, -100);
-        while (current.mag() < 200)
-        {
-            Cell cell = new Cell();
-            cell.position = current.copy();
-            cell.radius = random(2, 8);
-            cell.color = lerpColor(c1, c2, (current.x+100)/200);
-            cells.add(cell);
-            current.add(random(5), random(5), random(5));
-        }
-    }
-
-    private void initializeCells2()
     {
         cells = new ArrayList<Cell>();
 
@@ -119,6 +65,51 @@ public class CellDataViewer extends PApplet
                 return true;
         return false;
     }
+
+    /*
+    private void writeCellData()
+    {
+        ArrayList<String> cellStrings = new ArrayList<String>();
+
+        for (Cell c : cells)
+            cellStrings.add(c.toString());
+
+        try
+        {
+            Path path = Paths.get("cells.txt");
+            Files.write(path, cellStrings);
+        }
+        catch (IOException e)
+        {
+            System.out.println(e);
+        }
+    }
+
+    private void readCellData()
+    {
+        try
+        {
+            Path path = Paths.get("cells.txt");
+            List<String> lines = Files.readAllLines(path);
+
+            cells = new ArrayList<Cell>();
+
+            for (String line : lines)
+            {
+                System.out.println("> " + line);
+
+                Cell cell = new Cell();
+                cell.fromString(line);
+                cells.add(cell);
+            }
+
+        }
+        catch (IOException e)
+        {
+            System.out.println(e);
+        }
+    }
+    */
 
     @Override
     public void draw()
