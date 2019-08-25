@@ -88,24 +88,12 @@ public class CellDataViewer extends PApplet
 
     private void readCellData()
     {
-        try
-        {
-            FileHandle handle = Gdx.files.internal("cells.txt");
-            BufferedReader reader = handle.reader(1024);
+        String[] cellData = loadStrings("cells.txt");
 
-            cells = new ArrayList<Cell>();
-
-            while (true)
-            {
-                String line = reader.readLine();
-                if (line == null) break;
-                cells.add(new Cell(line));
-            }
-        }
-        catch (IOException e)
-        {
-            System.out.println(e);
-        }
+        cells = new ArrayList<Cell>();
+        
+        for (String line : cellData)
+            cells.add(new Cell(line));
     }
 
     @Override
