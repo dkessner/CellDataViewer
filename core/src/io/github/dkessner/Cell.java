@@ -23,6 +23,12 @@ public class Cell
         color = 0xffffffff;
     }
 
+    public Cell(String s)
+    {
+        this();
+        fromString(s);
+    }
+
     public void draw(PGraphics p)
     {
         p.pushMatrix();

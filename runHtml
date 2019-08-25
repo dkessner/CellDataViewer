@@ -1,0 +1,2 @@
+gradlew html:clean
+gradlew html:superDev

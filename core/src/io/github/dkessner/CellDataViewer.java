@@ -31,9 +31,9 @@ public class CellDataViewer extends PApplet
     {
         camera = new Camera(this);
 
-        initializeCells();
+        //initializeCells();
         //writeCellData();
-        //readCellData();
+        readCellData();
     }
 
     private void initializeCells()
@@ -95,15 +95,11 @@ public class CellDataViewer extends PApplet
 
             cells = new ArrayList<Cell>();
 
-            while (reader.ready())
+            while (true)
             {
                 String line = reader.readLine();
-                System.out.println("> " + line);
-
-                Cell cell = new Cell();
-                cell.fromString(line);
-
-                cells.add(cell);
+                if (line == null) break;
+                cells.add(new Cell(line));
             }
         }
         catch (IOException e)
@@ -115,16 +111,31 @@ public class CellDataViewer extends PApplet
     @Override
     public void draw()
     {
+        if (cells == null || cells.size() == 0)
+        {
+            readCellData();
+        }
+
         background(0);
+
+        pushMatrix();
 
         camera.update();
         camera.transform();
 
-        pushMatrix();
         Axes.drawAxes(this);
         for (Cell c : cells)
             c.draw(this);
+
         popMatrix();
+
+        fill(255);
+        int x = 25, y = 25, step = 25;
+        text("CellDataViewer", x, y);
+        text("arrow keys: yaw/pitch", x, y+=step*2);
+        text("shift + arrow keys: translate x/y", x, y+=step);
+        text("asdw: translate y/z", x, y+=step);
+        text("f: full screen", x, y+=step);
     }
 
     private boolean shift = false;
